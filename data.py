@@ -1,0 +1,153 @@
+from __future__ import annotations
+
+from typing import TypedDict, List, Dict, Optional
+
+
+class SocialLink(TypedDict, total=False):
+    label: str
+    url: str
+    icon: str
+
+
+class Project(TypedDict, total=False):
+    slug: str
+    name: str
+    tagline: str
+    description: str
+    tech: List[str]
+    highlights: List[str]
+    repo_url: Optional[str]
+    demo_url: Optional[str]
+    year: Optional[int]
+    featured: bool
+
+
+class Experience(TypedDict, total=False):
+    company: str
+    role: str
+    location: str
+    start: str
+    end: str
+    bullets: List[str]
+    tech: List[str]
+
+
+class Education(TypedDict, total=False):
+    school: str
+    degree: str
+    field: str
+    location: str
+    start: str
+    end: str
+
+
+class ContactInfo(TypedDict, total=False):
+    email: str
+    location: str
+    github: str
+    linkedin: str
+    website: str
+    socials: List[SocialLink]
+    timezone: str
+    resume_url: str
+
+
+class Profile(TypedDict, total=False):
+    name: str
+    headline: str
+    summary: str
+    contact: ContactInfo
+
+
+PROFILE: Profile = {
+    "name": "Jerry YourLastName",
+    "headline": "Software Engineer",
+    "summary": (
+        "Short professional summary about your background, focus areas, and what "
+        "you enjoy building. Update this text in data.py."
+    ),
+    "contact": {
+        "email": "you@example.com",
+        "location": "City, Country",
+        "github": "https://github.com/your-handle",
+        "linkedin": "https://www.linkedin.com/in/your-handle/",
+        "website": "",
+        "timezone": "Your Timezone",
+        "resume_url": "",
+        "socials": [
+            {
+                "label": "GitHub",
+                "url": "https://github.com/your-handle",
+                "icon": "github",
+            },
+            {
+                "label": "LinkedIn",
+                "url": "https://www.linkedin.com/in/your-handle/",
+                "icon": "linkedin",
+            },
+        ],
+    },
+}
+
+
+PROJECTS: List[Project] = [
+    {
+        "slug": "sample-portfolio",
+        "name": "Personal Portfolio",
+        "tagline": "A modern Streamlit-based personal site.",
+        "description": (
+            "Describe what this project does, why you built it, and what makes it "
+            "interesting or technically noteworthy."
+        ),
+        "tech": ["Python", "Streamlit"],
+        "highlights": [
+            "Responsive multi-page layout with custom theming.",
+            "Centralized content configuration in data.py.",
+        ],
+        "repo_url": "",
+        "demo_url": "",
+        "year": 2025,
+        "featured": True,
+    },
+    # Add more projects here
+]
+
+
+EXPERIENCE: List[Experience] = [
+    {
+        "company": "Your Company",
+        "role": "Your Role",
+        "location": "City, Country",
+        "start": "YYYY",
+        "end": "Present",
+        "bullets": [
+            "Key achievement or responsibility you want to highlight.",
+            "Another impact-focused bullet with metrics if possible.",
+        ],
+        "tech": ["Python", "Streamlit"],
+    },
+    # Add more roles here
+]
+
+
+EDUCATION: List[Education] = [
+    {
+        "school": "Your University",
+        "degree": "BSc",
+        "field": "Computer Science",
+        "location": "City, Country",
+        "start": "YYYY",
+        "end": "YYYY",
+    },
+]
+
+
+SKILLS: Dict[str, List[str]] = {
+    "Languages": ["Python", "TypeScript", "SQL"],
+    "Frameworks": ["Streamlit", "FastAPI"],
+    "Tools": ["Git", "Docker"],
+}
+
+
+CONTACT: ContactInfo = PROFILE["contact"]
+
