@@ -1,7 +1,7 @@
 import streamlit as st
 from pathlib import Path
 
-from data import PROFILE, PROJECTS, SKILLS, CONTACT
+from data import PROFILE, get_summary, PROJECTS, SKILLS, CONTACT
 
 
 st.set_page_config(
@@ -15,8 +15,8 @@ def main() -> None:
     # Header: name, role, value statement
     st.title(PROFILE["name"])
     st.subheader(PROFILE["headline"])
-    if PROFILE.get("summary"):
-        st.write(PROFILE["summary"])
+    if get_summary():
+        st.write(get_summary())
 
     # Hero: profile photo + quick intro
     st.markdown("---")
@@ -25,7 +25,7 @@ def main() -> None:
     with left:
         profile_path = Path("assets/profile.jpg")
         if profile_path.exists():
-            st.image(str(profile_path), use_column_width=True)
+            st.image(str(profile_path), use_container_width=True)
         else:
             st.info("Add a profile photo at `assets/profile.jpg`.")
 

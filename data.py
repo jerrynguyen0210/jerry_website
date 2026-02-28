@@ -1,6 +1,22 @@
 from __future__ import annotations
 
+from pathlib import Path
 from typing import TypedDict, List, Dict, Optional
+
+
+def _load_summary() -> str:
+    path = Path(__file__).parent / "docs/my_summary.txt"
+    if path.exists():
+        return path.read_text(encoding="utf-8").strip()
+    return ""
+
+
+def get_summary() -> str:
+    """Load summary from my_summary.txt (called at render time so edits show without restart)."""
+    return _load_summary() or (
+        "Short professional summary about your background, focus areas, and what "
+        "you enjoy building. Update this text in my_summary.txt."
+    )
 
 
 class SocialLink(TypedDict, total=False):
@@ -46,7 +62,7 @@ class ContactInfo(TypedDict, total=False):
     location: str
     github: str
     linkedin: str
-    website: str
+    website: jerryitdev.com
     socials: List[SocialLink]
     timezone: str
     resume_url: str
@@ -62,16 +78,16 @@ class Profile(TypedDict, total=False):
 PROFILE: Profile = {
     "name": "Jerry YourLastName",
     "headline": "Software Engineer",
-    "summary": (
+    "summary": _load_summary() or (
         "Short professional summary about your background, focus areas, and what "
-        "you enjoy building. Update this text in data.py."
+        "you enjoy building. Update this text in my_summary.txt."
     ),
     "contact": {
         "email": "you@example.com",
         "location": "City, Country",
         "github": "https://github.com/your-handle",
         "linkedin": "https://www.linkedin.com/in/your-handle/",
-        "website": "",
+        "website": "https://jerryitdev.com",
         "timezone": "Your Timezone",
         "resume_url": "",
         "socials": [

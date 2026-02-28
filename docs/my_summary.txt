@@ -1,0 +1,3 @@
+My name is Jerry. I was born and brough up in Ho Chi Minh city. The biggest city in Vietnam.
+Short professional summary about your background, focus areas, and what you enjoy building. Update this text in my_summary.txt.
+This is my first demo.
