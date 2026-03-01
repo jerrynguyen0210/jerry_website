@@ -1,2 +1,2 @@
 # jerry_website
-indivisual website
+individual website

@@ -11,7 +11,7 @@ st.set_page_config(
 )
 
 
-def main() -> None:
+def _home() -> None:
     # Header: name, role, value statement
     st.title(PROFILE["name"])
     st.subheader(PROFILE["headline"])
@@ -113,5 +113,19 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    home_page = st.Page(_home, title="Home", default=True)
+    about_page = st.Page("pages/1_About.py", title="About")
+    projects_page = st.Page("pages/2_Projects.py", title="Projects")
+    demo_page = st.Page("pages/2_Projects_demo_02.py", title="Ollama Chatbot")
+    resume_page = st.Page("pages/3_Resume.py", title="Resume")
+    contact_page = st.Page("pages/4_Contact.py", title="Contact")
+    notion_page = st.Page("pages/5_NotionPage.py", title="Notion Page")
+
+    pg = st.navigation(
+        {
+            "": [home_page, about_page, resume_page, contact_page, notion_page],
+            "Projects": [projects_page, demo_page],
+        }
+    )
+    pg.run()
 

@@ -62,7 +62,7 @@ class ContactInfo(TypedDict, total=False):
     location: str
     github: str
     linkedin: str
-    website: jerryitdev.com
+    website: str
     socials: List[SocialLink]
     timezone: str
     resume_url: str
@@ -166,4 +166,3 @@ SKILLS: Dict[str, List[str]] = {
 
 
 CONTACT: ContactInfo = PROFILE["contact"]
-

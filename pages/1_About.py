@@ -13,13 +13,9 @@ def main() -> None:
             background: radial-gradient(circle at top left, #e7f9e7 0, #d4f2d4 45%, #bde6bd 100%);
         }
 
-        # .about-wrapper {
-        #     # background: #f7fff7;
-        #     background: black;
-        #     padding: 2.5rem 2rem;
-        #     border-radius: 1.5rem;
-        #     box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
-        # }
+        .about-wrapper {
+            padding: 0.5rem 0;
+        }
 
         .about-layout {
             display: flex;
@@ -118,4 +114,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

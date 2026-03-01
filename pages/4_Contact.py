@@ -8,8 +8,13 @@ def main() -> None:
 
     st.write("Feel free to reach out using any of the channels below.")
 
-    st.markdown(f"**Email:** [{CONTACT['email']}](mailto:{CONTACT['email']})")
-    st.markdown(f"**Location:** {CONTACT['location']}")
+    email = CONTACT.get("email")
+    location = CONTACT.get("location")
+
+    if email:
+        st.markdown(f"**Email:** [{email}](mailto:{email})")
+    if location:
+        st.markdown(f"**Location:** {location}")
 
     if CONTACT.get("github"):
         st.markdown(f"**GitHub:** {CONTACT['github']}")
@@ -27,4 +32,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
