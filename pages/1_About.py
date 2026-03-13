@@ -5,6 +5,11 @@ from data import PROFILE, get_summary
 
 
 def main() -> None:
+    # Visiting this non-chat page clears any chat histories
+    for key in ("smart_jerry_messages", "junior_jerry_messages"):
+        if key in st.session_state:
+            del st.session_state[key]
+
     # Custom layout inspired by the provided About Me design
     st.markdown(
         """

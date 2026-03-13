@@ -1,6 +1,9 @@
 import streamlit as st
 import requests
 
+# Page‑specific chat history key
+CHAT_KEY = "junior_jerry_messages"
+
 # ==== CONFIG ====
 
 # Define your servers (index 0 and index 1)
@@ -13,6 +16,12 @@ SERVER_NAMES = [
     "Server 0 - Raspberry Pi 5",
     "Server 1 - Mac mini M4"
 ]
+
+# When opening this page, clear any other chat page's history
+for key in ("smart_jerry_messages",):
+    if key in st.session_state:
+        del st.session_state[key]
+
 # User selects which server to use
 selected_server_idx = st.selectbox(
     "Select server",
@@ -50,8 +59,9 @@ def fetch_models():
 # ==== UI ====
 st.title("Junior Jerry LLM Chat")
 
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+# Initialize chat history for this page
+if CHAT_KEY not in st.session_state:
+    st.session_state[CHAT_KEY] = []
 
 # Model selector
 models = fetch_models()
@@ -71,7 +81,7 @@ else:
     st.session_state.selected_model = selected_model
 
 # Display chat history
-for msg in st.session_state.messages:
+for msg in st.session_state[CHAT_KEY]:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
@@ -80,14 +90,14 @@ prompt = st.chat_input("Type your message...")
 
 if prompt:
     # Show user message
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state[CHAT_KEY].append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
     # Call API
     payload = {
         "model": st.session_state.selected_model,
-        "messages": st.session_state.messages,
+        "messages": st.session_state[CHAT_KEY],
         "temperature": 0.7
     }
 
@@ -102,6 +112,6 @@ if prompt:
         assistant_reply = f"Error: {e}"
 
     # Show assistant reply
-    st.session_state.messages.append({"role": "assistant", "content": assistant_reply})
+    st.session_state[CHAT_KEY].append({"role": "assistant", "content": assistant_reply})
     with st.chat_message("assistant"):
         st.markdown(assistant_reply)

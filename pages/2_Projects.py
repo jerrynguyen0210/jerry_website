@@ -4,6 +4,11 @@ from data import PROJECTS
 
 
 def main() -> None:
+    # Clear chat histories when user is on the generic Projects page
+    for key in ("smart_jerry_messages", "junior_jerry_messages"):
+        if key in st.session_state:
+            del st.session_state[key]
+
     st.title("Projects")
 
     for project in PROJECTS:

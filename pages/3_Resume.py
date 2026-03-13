@@ -4,6 +4,10 @@ from data import EXPERIENCE, EDUCATION, SKILLS
 
 
 def main() -> None:
+    # Clear chat histories when user is on the Resume page
+    for key in ("smart_jerry_messages", "junior_jerry_messages"):
+        if key in st.session_state:
+            del st.session_state[key]
     st.title("Resume")
 
     st.subheader("Experience")
@@ -27,8 +31,7 @@ def main() -> None:
         with col:
             st.markdown(f"**{category}**")
             st.write(", ".join(items))
-
-
+ 
 if __name__ == "__main__":
     main()
 
