@@ -4,6 +4,11 @@ from data import CONTACT
 
 
 def main() -> None:
+    # Clear chat histories when user is on the Contact page
+    for key in ("smart_jerry_messages", "junior_jerry_messages"):
+        if key in st.session_state:
+            del st.session_state[key]
+
     st.title("Contact")
 
     st.write("Feel free to reach out using any of the channels below.")

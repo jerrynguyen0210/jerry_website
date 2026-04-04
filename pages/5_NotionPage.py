@@ -7,6 +7,11 @@ NOTION_SCREENSHOT_PATH = "assets/notion_preview.png"
 
 
 def main() -> None:
+    # Clear chat histories when user is on the Notion page
+    for key in ("smart_jerry_messages", "junior_jerry_messages"):
+        if key in st.session_state:
+            del st.session_state[key]
+
     st.title("Notion Page")
     st.write(
         "Notion does not allow this public page to be embedded inside other websites, "

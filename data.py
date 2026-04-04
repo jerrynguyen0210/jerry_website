@@ -122,7 +122,7 @@ PROJECTS: List[Project] = [
         ],
         "repo_url": "",
         "demo_url": "",
-        "year": 2025,
+        "year": 2026,
         "featured": True,
     },
     # Add more projects here
