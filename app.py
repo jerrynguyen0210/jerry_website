@@ -1,4 +1,5 @@
 import streamlit as st
+import base64
 from pathlib import Path
 
 from data import PROFILE, get_summary, PROJECTS, SKILLS, CONTACT
@@ -12,119 +13,71 @@ st.set_page_config(
 
 
 def _home() -> None:
+    # Background image
+    with open("assets/home_background.jpg", "rb") as f:
+        bg_data = base64.b64encode(f.read()).decode()
+    st.markdown(f"""
+        <style>
+        .stApp {{
+            background-image: url("data:image/jpg;base64,{bg_data}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }}
+        </style>
+    """, unsafe_allow_html=True)
+
     # Header: name, role, value statement
-    st.title(PROFILE["name"])
-    st.subheader(PROFILE["headline"])
-    if get_summary():
-        st.write(get_summary())
+    summary_html = f"<p style='color: #e0e0e0; font-size: 1rem; margin: 8px 0 0 0;'>{get_summary()}</p>" if get_summary() else ""
+    st.markdown(f"""
+        <div style="
+            background-color: rgba(0, 0, 0, 0.55);
+            border-radius: 12px;
+            padding: 28px 36px;
+            margin-bottom: 16px;
+        ">
+            <h1 style="color: #ffffff; margin: 0 0 6px 0;">{PROFILE["name"]}</h1>
+            <h3 style="color: #f0c070; margin: 0;">{PROFILE["headline"]}</h3>
+            {summary_html}
+        </div>
+    """, unsafe_allow_html=True)
 
-    # Hero: profile photo + quick intro
-    st.markdown("---")
-    left, right = st.columns([1, 2])
-
-    with left:
-        profile_path = Path("assets/profile.jpg")
-        if profile_path.exists():
-            st.image(str(profile_path), use_container_width=True)
-        else:
-            st.info("Add a profile photo at `assets/profile.jpg`.")
-
-    with right:
-        st.markdown("### Quick intro")
-        st.write(
-            "This is a sample hero introduction. Replace it with a short paragraph "
-            "about who you are, what you work on, and what you're looking for."
-        )
-
-        # Primary call-to-action buttons
-        st.markdown("### Connect")
-        btn_cols = st.columns(4)
-        with btn_cols[0]:
-            if CONTACT.get("github"):
-                st.link_button("GitHub", CONTACT["github"])
-        with btn_cols[1]:
-            if CONTACT.get("linkedin"):
-                st.link_button("LinkedIn", CONTACT["linkedin"])
-        with btn_cols[2]:
-            if CONTACT.get("email"):
-                st.link_button("Email", f"mailto:{CONTACT['email']}")
-        with btn_cols[3]:
-            resume_url = CONTACT.get("resume_url")
-            if resume_url:
-                st.link_button("Resume", resume_url)
-
-    # Featured projects preview
-    st.markdown("---")
-    st.subheader("Featured projects")
-    featured = [p for p in PROJECTS if p.get("featured")]
-    featured = sorted(featured, key=lambda p: p.get("year", 0), reverse=True)[:3]
-
-    if not featured:
-        st.write("Add featured projects in `data.py` to showcase them here.")
-    else:
-        for project in featured:
-            with st.container(border=True):
-                st.markdown(f"**{project['name']}**")
-                if project.get("tagline"):
-                    st.caption(project["tagline"])
-                st.write(project["description"])
-
-                meta_cols = st.columns(3)
-                with meta_cols[0]:
-                    if tech := project.get("tech"):
-                        st.caption("Tech: " + ", ".join(tech))
-                with meta_cols[1]:
-                    if repo := project.get("repo_url"):
-                        st.link_button("GitHub", repo)
-                with meta_cols[2]:
-                    if demo := project.get("demo_url"):
-                        st.link_button("Live demo", demo)
-
-    # Skills highlights
-    st.markdown("---")
-    st.subheader("Skills highlights")
-    categories = list(SKILLS.items())[:3]
-    cols = st.columns(len(categories) or 1)
-    for col, (category, items) in zip(cols, categories):
-        with col:
-            st.markdown(f"**{category}**")
-            st.write(", ".join(items))
-
-    # Footer
-    st.markdown("---")
-    footer_cols = st.columns(3)
-    with footer_cols[0]:
-        st.caption(
-            f"{CONTACT.get('location', '')} · {CONTACT.get('timezone', '')}".strip(" ·")
-        )
-    with footer_cols[1]:
-        if CONTACT.get("email"):
-            st.caption(CONTACT["email"])
-    with footer_cols[2]:
-        links = []
-        if CONTACT.get("github"):
-            links.append("[GitHub](" + CONTACT["github"] + ")")
-        if CONTACT.get("linkedin"):
-            links.append("[LinkedIn](" + CONTACT["linkedin"] + ")")
-        if CONTACT.get("website"):
-            links.append("[Website](" + CONTACT["website"] + ")")
-        if links:
-            st.caption(" · ".join(links))
+    # Quote card
+    st.markdown("""
+        <div style="
+            background-color: rgba(90, 40, 50, 0.6);
+            border-radius: 12px;
+            padding: 20px 20px;
+            margin: 0 0;
+        ">
+            <div style="font-size: 48px; color: #a8c5b5; line-height: 1; margin-bottom: 10px;">"</div>
+            <p style="
+                color: white;
+                font-size: 1.3rem;
+                font-weight: 600;
+                line-height: 1.6;
+                margin: 0 0 0 0;
+            ">One's friends are that part of the human race with which one can be human.</p>
+            <p style="color: #6dbf9e; font-weight: 600; margin: 0;">George Santayana</p>
+        </div>
+    """, unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
-    home_page = st.Page(_home, title="Home", default=True)
-    about_page = st.Page("pages/1_About.py", title="About")
-    projects_page = st.Page("pages/2_Projects.py", title="Projects")
-    demo_01_page = st.Page("pages/2_Project_Young_Jerry.py", title="Junior Jerry LLM Chat")
-    demo_page = st.Page("pages/2_Project_Smart_Jerry.py", title="Smart Jerry Chatbot")
-    resume_page = st.Page("pages/3_Resume.py", title="Resume")
-    contact_page = st.Page("pages/4_Contact.py", title="Contact")
-    notion_page = st.Page("pages/5_NotionPage.py", title="Notion Page")
+    home_page = st.Page(_home, title="Introduction", default=True, icon="🏠")
+
+    resume_page = st.Page("pages/3_Resume.py", title="Resume", icon="📄")
+    contact_page = st.Page("pages/4_Contact.py", title="Contact", icon="📧")
+    notion_page = st.Page("pages/5_NotionPage.py", title="Notion Page", icon="📝")
+
+    projects_page = st.Page("pages/2_Projects.py", title="Projects", icon="📁")
+    demo_01_page = st.Page("pages/2_Project_Young_Jerry.py", title="Junior Jerry LLM Chat", icon="🤖")
+    demo_page = st.Page("pages/2_Project_Smart_Jerry.py", title="Smart Jerry Chatbot", icon="💬")
 
     pg = st.navigation(
         {
-            "": [home_page, about_page, resume_page, contact_page, notion_page],
+            "Home": [home_page],
+            "Personal Profile": [resume_page, contact_page, notion_page],
             "Projects": [projects_page, demo_01_page, demo_page],
         }
     )
