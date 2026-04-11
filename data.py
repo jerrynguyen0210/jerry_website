@@ -108,24 +108,64 @@ PROFILE: Profile = {
 
 PROJECTS: List[Project] = [
     {
-        "slug": "sample-portfolio",
-        "name": "Personal Portfolio",
-        "tagline": "A modern Streamlit-based personal site.",
+        "slug": "mobile-selling-chatbot-vietnamese",
+        "name": "Mobile Selling Chatbot Vietnamese",
+        "tagline": "A Vietnamese AI chatbot that recommends mobile phones using a RAG pipeline.",
         "description": (
-            "Describe what this project does, why you built it, and what makes it "
-            "interesting or technically noteworthy."
+            "An AI-powered mobile phone selling chatbot for the Vietnamese market. "
+            "Users can browse phones by brand or budget, ask about features such "
+            "as battery life, camera quality, and performance, and receive tailored "
+            "recommendations generated from retrieved product data."
         ),
-        "tech": ["Python", "Streamlit"],
-        "highlights": [
-            "Responsive multi-page layout with custom theming.",
-            "Centralized content configuration in data.py.",
+        "tech": [
+            "Python",
+            "Streamlit",
+            "FastAPI",
+            "PostgreSQL",
+            "Redis",
+            "Qdrant",
+            "Docker",
+            "Claude",
         ],
-        "repo_url": "https://github.com/your-handle/sample-portfolio",
-        "demo_url": "https://app01.jerryitdev.com",
+        "highlights": [
+            "Built a Retrieval-Augmented Generation workflow that searches product embeddings before generating answers.",
+            "Combined a Streamlit frontend with a FastAPI backend for chat interactions and API-driven architecture.",
+            "Used PostgreSQL for conversation history, Redis for session caching, and Qdrant for vector search.",
+        ],
+        "repo_url": "https://github.com/jerrynguyen0210/Mobile_Selling_Chatbot_Vietnamese",
+        "demo_url": None,
         "year": 2026,
         "featured": True,
     },
-    # Add more projects here
+    {
+        "slug": "chatbot-desktop-app",
+        "name": "Chatbot Desktop App",
+        "tagline": "A Qt desktop chat client with a FastAPI backend and optional RAG workflows.",
+        "description": (
+            "A desktop chatbot application built with a C++ Qt interface and a "
+            "Python FastAPI server. The app supports multiple LLM providers, lets "
+            "users upload and index documents for retrieval-augmented generation, "
+            "and routes chat requests through a backend API designed for local or "
+            "cloud-based model access."
+        ),
+        "tech": [
+            "C++",
+            "Qt",
+            "Python",
+            "FastAPI",
+            "LangChain",
+            "Qdrant",
+        ],
+        "highlights": [
+            "Built a desktop chat interface with agent switching across OpenAI, Anthropic, Google, and local model providers.",
+            "Implemented RAG session management with file upload, indexing, retrieval, and session activation from the app.",
+            "Separated the system into a Qt frontend and FastAPI backend for cleaner API-driven development.",
+        ],
+        "repo_url": "https://github.com/jerrynguyen0210/Chatbot_Desktop_App",
+        "demo_url": None,
+        "year": 2026,
+        "featured": True,
+    },
 ]
 
 

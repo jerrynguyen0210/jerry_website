@@ -1,3 +1,7 @@
-My name is Jerry. I was born and brought up in Ho Chi Minh city. The biggest city in Vietnam.
-Short professional summary about your background, focus areas, and what you enjoy building. Update this text in my_summary.txt.
-This is my first demo.
+Hi, my name is Jerry. I’m currently studying a Master of Information Technology at Kaplan Business School in Adelaide, and I have a background in embedded software engineering.
+
+I have about 9 years of experience working in the software industry, mainly in embedded systems. I previously worked at Bosch and DXC Luxoft, where I developed C and C++ software for automotive systems like telematics units, ECUs, and infotainment platforms. I was involved in the full development lifecycle and worked closely with international teams to deliver production-ready systems used by major brands.
+
+My strengths are in system-level development, debugging complex issues, and building reliable embedded software. Recently, I’ve also been exploring backend and AI technologies, including developing chatbot applications using LLMs and RAG architectures.
+
+I’m now looking for an opportunity in Australia where I can apply my experience, contribute to real-world products, and continue growing both technically and professionally.
