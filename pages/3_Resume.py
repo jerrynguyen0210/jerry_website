@@ -1,37 +1,27 @@
-import streamlit as st
+import base64
+from pathlib import Path
 
-from data import EXPERIENCE, EDUCATION, SKILLS
+import streamlit as st
 
 
 def main() -> None:
-    # Clear chat histories when user is on the Resume page
-    for key in ("smart_jerry_messages", "junior_jerry_messages"):
-        if key in st.session_state:
-            del st.session_state[key]
-    st.title("Resume")
+    pdf_path = Path(__file__).resolve().parents[1] / "docs" / "Jerry_CV.pdf"
 
-    st.subheader("Experience")
-    for role in EXPERIENCE:
-        st.markdown(f"**{role['role']}** · {role['company']} · {role['location']}")
-        st.caption(f"{role['start']} – {role['end']}")
-        for bullet in role.get("bullets", []):
-            st.markdown(f"- {bullet}")
-        if tech := role.get("tech"):
-            st.caption("Tech: " + ", ".join(tech))
-        st.markdown("---")
+    if not pdf_path.exists():
+        st.error("Resume PDF not found: docs/Jerry_CV.pdf")
+        return
 
-    st.subheader("Education")
-    for edu in EDUCATION:
-        st.markdown(f"**{edu['degree']} {edu['field']}** · {edu['school']}")
-        st.caption(f"{edu['location']} · {edu['start']} – {edu['end']}")
+    pdf_base64 = base64.b64encode(pdf_path.read_bytes()).decode("utf-8")
+    pdf_viewer = f"""
+        <iframe
+            src="data:application/pdf;base64,{pdf_base64}"
+            width="100%"
+            height="1200"
+            style="border: none;"
+        ></iframe>
+    """
+    st.markdown(pdf_viewer, unsafe_allow_html=True)
 
-    st.subheader("Skills")
-    cols = st.columns(len(SKILLS))
-    for col, (category, items) in zip(cols, SKILLS.items()):
-        with col:
-            st.markdown(f"**{category}**")
-            st.write(", ".join(items))
- 
+
 if __name__ == "__main__":
     main()
-

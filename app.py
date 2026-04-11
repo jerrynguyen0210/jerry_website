@@ -1,8 +1,9 @@
 import streamlit as st
-import base64
-from pathlib import Path
+import streamlit.components.v1 as components
+from html import escape
+from textwrap import dedent
 
-from data import PROFILE, get_summary, PROJECTS, SKILLS, CONTACT
+from data import PROFILE, get_summary
 
 
 st.set_page_config(
@@ -13,62 +14,160 @@ st.set_page_config(
 
 
 def _home() -> None:
-    # Background image
+    summary = get_summary()
+    intro_text = summary or "Building dependable software experiences with clarity, care, and a product mindset."
+    paragraphs = [p.strip() for p in intro_text.split("\n\n") if p.strip()]
+    summary_html = "".join(f'<p class="about-body">{escape(p)}</p>' for p in paragraphs)
 
-    # Header: name, role, value statement
-    summary_html = f"<p style='color: #e0e0e0; font-size: 1rem; margin: 8px 0 0 0;'>{get_summary()}</p>" if get_summary() else ""
-    st.markdown(f"""
-        <div style="
-            background-color: rgba(0, 0, 0, 0.55);
-            border-radius: 12px;
-            padding: 28px 36px;
-            margin-bottom: 16px;
-        ">
-            <h1 style="color: #ffffff; margin: 0 0 6px 0;">{PROFILE["name"]}</h1>
-            <h3 style="color: #f0c070; margin: 0;">{PROFILE["headline"]}</h3>
-            {summary_html}
-        </div>
-    """, unsafe_allow_html=True)
-
-    # Quote card
-    st.markdown("""
-        <div style="
-            background-color: rgba(90, 40, 50, 0.6);
-            border-radius: 12px;
-            padding: 20px 20px;
-            margin: 0 0;
-        ">
-            <div style="font-size: 48px; color: #a8c5b5; line-height: 1; margin-bottom: 10px;">"</div>
-            <p style="
-                color: white;
-                font-size: 1.3rem;
-                font-weight: 600;
-                line-height: 1.6;
-                margin: 0 0 0 0;
-            ">One's friends are that part of the human race with which one can be human.</p>
-            <p style="color: #6dbf9e; font-weight: 600; margin: 0;">George Santayana</p>
-        </div>
-    """, unsafe_allow_html=True)
+    components.html(
+        dedent(
+            f"""
+        <style>
+            body {{
+                margin: 0;
+                background: transparent;
+                font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+            }}
+            .stApp {{
+                background: linear-gradient(135deg, #e9e3de 0%, #f5f1ec 100%);
+            }}
+            .block-container {{
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }}
+            .about-wrap {{
+                position: relative;
+                max-width: 980px;
+                margin: 0 auto;
+                padding-left: 4.5rem;
+            }}
+            .about-card {{
+                background:
+                    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(245, 240, 236, 0.94)),
+                    radial-gradient(circle at right center, rgba(0, 0, 0, 0.04), transparent 30%);
+                border-radius: 4px;
+                padding: 2.2rem 2.4rem 2.6rem 2.4rem;
+                box-shadow: 0 18px 40px rgba(70, 48, 34, 0.12);
+                overflow: hidden;
+                position: relative;
+            }}
+            .about-card::after {{
+                content: '';
+                position: absolute;
+                inset: 0;
+                background:
+                    radial-gradient(circle at 88% 36%, rgba(0, 0, 0, 0.06), transparent 24%),
+                    radial-gradient(circle at 80% 48%, rgba(0, 0, 0, 0.045), transparent 18%),
+                    radial-gradient(circle at 92% 62%, rgba(0, 0, 0, 0.035), transparent 18%);
+                opacity: 0.55;
+                pointer-events: none;
+            }}
+            .about-ribbon {{
+                position: absolute;
+                left: 0;
+                top: 0.9rem;
+                width: 2.2rem;
+                height: 9rem;
+                background: linear-gradient(180deg, #7d1600 0%, #a02605 100%);
+                color: #fff4ea;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                writing-mode: vertical-rl;
+                transform: rotate(180deg);
+                font-size: 1.15rem;
+                font-weight: 700;
+                letter-spacing: 0.04rem;
+                box-shadow: 0 10px 18px rgba(91, 24, 7, 0.22);
+            }}
+            .about-ribbon::after {{
+                content: '';
+                position: absolute;
+                bottom: -14px;
+                left: 0;
+                border-left: 18px solid #5f0d00;
+                border-top: 14px solid transparent;
+            }}
+            .about-title {{
+                font-family: Georgia, "Times New Roman", serif;
+                color: #050505;
+                font-size: 4rem;
+                line-height: 1;
+                font-weight: 700;
+                letter-spacing: -0.05em;
+                margin: 0 0 1rem 0;
+            }}
+            .about-lead {{
+                max-width: 700px;
+                color: #0d4d57;
+                font-family: Georgia, "Times New Roman", serif;
+                font-size: 1.85rem;
+                line-height: 1.2;
+                font-weight: 700;
+                margin: 0 0 2rem 0;
+            }}
+            .about-body {{
+                max-width: 720px;
+                color: #111111;
+                font-size: 1.08rem;
+                line-height: 1.9;
+                margin: 0;
+            }}
+            .about-body + .about-body {{
+                margin-top: 1.4rem;
+            }}
+            @media (max-width: 900px) {{
+                .about-wrap {{
+                    padding-left: 0;
+                }}
+                .about-ribbon {{
+                    position: relative;
+                    top: 0;
+                    margin-bottom: 1rem;
+                    height: 2.2rem;
+                    width: 8rem;
+                    writing-mode: horizontal-tb;
+                    transform: none;
+                }}
+                .about-ribbon::after {{
+                    display: none;
+                }}
+                .about-card {{
+                    padding: 1.6rem 1.3rem 1.9rem 1.3rem;
+                }}
+                .about-title {{
+                    font-size: 2.8rem;
+                }}
+                .about-lead {{
+                    font-size: 1.4rem;
+                }}
+            }}
+        </style>
+        <section class="about-wrap">
+            <div class="about-ribbon">About</div>
+            <div class="about-card">
+                <h1 class="about-title">Hi I&apos;m {PROFILE["name"].split()[0]}</h1>
+                <p class="about-lead">{PROFILE["headline"]}</p>
+                {summary_html}
+            </div>
+        </section>
+    """
+        ),
+        height=760,
+        scrolling=False,
+    )
 
 
 if __name__ == "__main__":
     home_page = st.Page(_home, title="Introduction", default=True, icon="🏠")
-
     resume_page = st.Page("pages/3_Resume.py", title="Resume", icon="📄")
-    contact_page = st.Page("pages/4_Contact.py", title="Contact", icon="📧")
-    notion_page = st.Page("pages/5_NotionPage.py", title="Notion Page", icon="📝")
-
     projects_page = st.Page("pages/2_Projects.py", title="Projects", icon="📁")
-    # demo_01_page = st.Page("pages/2_Project_Young_Jerry.py", title="Junior Jerry LLM Chat", icon="🤖")
-    # demo_page = st.Page("pages/2_Project_Smart_Jerry.py", title="Smart Jerry Chatbot", icon="💬")
 
     pg = st.navigation(
         {
             "Home": [home_page],
-            "Personal Profile": [resume_page, contact_page, notion_page],
-            # "Projects": [projects_page, demo_01_page, demo_page],
+            "Personal Profile": [resume_page],
             "Projects": [projects_page],
         }
     )
     pg.run()
-
