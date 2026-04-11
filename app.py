@@ -14,18 +14,6 @@ st.set_page_config(
 
 def _home() -> None:
     # Background image
-    with open("assets/home_background.jpg", "rb") as f:
-        bg_data = base64.b64encode(f.read()).decode()
-    st.markdown(f"""
-        <style>
-        .stApp {{
-            background-image: url("data:image/jpg;base64,{bg_data}");
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }}
-        </style>
-    """, unsafe_allow_html=True)
 
     # Header: name, role, value statement
     summary_html = f"<p style='color: #e0e0e0; font-size: 1rem; margin: 8px 0 0 0;'>{get_summary()}</p>" if get_summary() else ""
@@ -71,14 +59,15 @@ if __name__ == "__main__":
     notion_page = st.Page("pages/5_NotionPage.py", title="Notion Page", icon="📝")
 
     projects_page = st.Page("pages/2_Projects.py", title="Projects", icon="📁")
-    demo_01_page = st.Page("pages/2_Project_Young_Jerry.py", title="Junior Jerry LLM Chat", icon="🤖")
-    demo_page = st.Page("pages/2_Project_Smart_Jerry.py", title="Smart Jerry Chatbot", icon="💬")
+    # demo_01_page = st.Page("pages/2_Project_Young_Jerry.py", title="Junior Jerry LLM Chat", icon="🤖")
+    # demo_page = st.Page("pages/2_Project_Smart_Jerry.py", title="Smart Jerry Chatbot", icon="💬")
 
     pg = st.navigation(
         {
             "Home": [home_page],
             "Personal Profile": [resume_page, contact_page, notion_page],
-            "Projects": [projects_page, demo_01_page, demo_page],
+            # "Projects": [projects_page, demo_01_page, demo_page],
+            "Projects": [projects_page],
         }
     )
     pg.run()
