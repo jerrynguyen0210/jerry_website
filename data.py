@@ -133,7 +133,7 @@ PROJECTS: List[Project] = [
             "Used PostgreSQL for conversation history, Redis for session caching, and Qdrant for vector search.",
         ],
         "repo_url": "https://github.com/jerrynguyen0210/Mobile_Selling_Chatbot_Vietnamese",
-        "demo_url": None,
+        "demo_url": "https://app01.jerryitdev.com/",
         "year": 2026,
         "featured": True,
     },
